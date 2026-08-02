@@ -1,0 +1,21 @@
+# Visual Studio
+.vs/
+**/.vs/
+
+# Arquivos locais do usuário
+*.user
+*.suo
+
+# Compilação
+Debug/
+Release/
+x64/
+x86/
+bin/
+obj/
+
+# Arquivos executáveis
+*.exe
+*.obj
+*.pdb
+*.ilk
