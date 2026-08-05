@@ -48,8 +48,33 @@ int getElemento(const LISTA* lista, int elemento) {
 }
 
 void inserir(LISTA* lista, int elemento) {
-	lista->array[lista->qtdEelementos].elemento = elemento;
-	lista->qtdEelementos++;
+	if (lista->qtdEelementos < MAX) {
+		lista->array[lista->qtdEelementos].elemento = elemento;
+		lista->qtdEelementos++;
+	}
+}
+
+bool remove(LISTA* lista, int elemento) {
+	int posicaoElemento = getElemento(lista, elemento);
+
+	bool isRemoved = false;
+
+	if (posicaoElemento >= 0) {
+		for (int i = posicaoElemento; i < lista->qtdEelementos; i++) {
+			lista->array[i].elemento = lista->array[i + 1].elemento;
+			lista->qtdEelementos--;
+		}
+		isRemoved = true;
+	}
+	else {
+		printf("Elemento nao encontrado na lista. Nada removido.\n");
+	}
+
+	return isRemoved;
+}
+
+void clear(LISTA* lista) {
+	lista->qtdEelementos = 0;
 }
 
 int main() {
@@ -65,11 +90,25 @@ int main() {
 	inserir(lista, 2);
 	inserir(lista, 0);
 	inserir(lista, 1);
+	inserir(lista, 0);
+	inserir(lista, 12);
 
 	printf("Elementos da lista: \n");
 	printLista(lista);
 	printf("Quantidade de elementos validos: %i.\n", qtdElementosValidos(lista));
 	printf("Posicao do elemento 0 na lista: %i \n", getElemento(lista, 0));
+	printf("Removendo item 0.\n");
+	remove(lista, 0);
+	printf("Elementos da lista: \n");
+	printLista(lista);
+	printf("Quantidade de elementos validos: %i.\n", qtdElementosValidos(lista));
+	
+	printf("Limpando a lista.\n");
+	clear(lista);
+
+	printf("Elementos da lista: \n");
+	printLista(lista);
+	printf("Quantidade de elementos validos: %i.\n", qtdElementosValidos(lista));
 
 	return 0;
 }
