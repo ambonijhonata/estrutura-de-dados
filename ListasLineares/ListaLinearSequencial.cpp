@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#define MAX 50
+#define MAX 10
 
 typedef struct {
 	int elemento;
@@ -47,11 +47,29 @@ int getElemento(const LISTA* lista, int elemento) {
 	return -1;
 }
 
-void inserir(LISTA* lista, int elemento) {
+int inserir(LISTA* lista, int elemento) {
 	if (lista->qtdEelementos < MAX) {
 		lista->array[lista->qtdEelementos].elemento = elemento;
 		lista->qtdEelementos++;
+		return 1;
 	}
+
+	return -1;
+}
+
+int inserirByIndex(LISTA* lista, int elemento, int index) {
+	if (lista->qtdEelementos < MAX) {
+		for (int i = lista->qtdEelementos - 1; i >= index; i--) {
+			int atual = lista->array[i].elemento;
+			lista->array[i + 1].elemento = atual;
+		}
+		lista->array[index].elemento = elemento;
+		lista->qtdEelementos++;
+	}
+	else
+	{
+		return -1;
+	}	
 }
 
 bool remove(LISTA* lista, int elemento) {
@@ -87,11 +105,13 @@ int main() {
 	}		
 
 	printf("inserindo elementos na lista \n");
+	inserir(lista, 8);
 	inserir(lista, 2);
-	inserir(lista, 0);
-	inserir(lista, 1);
-	inserir(lista, 0);
-	inserir(lista, 12);
+	inserir(lista, 15);
+	inserir(lista, 32);
+	inserir(lista, 4);
+	inserir(lista, 48);		
+	inserirByIndex(lista, 28, 3);
 
 	printf("Elementos da lista: \n");
 	printLista(lista);
