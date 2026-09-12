@@ -94,6 +94,55 @@ void clear(LISTA* lista) {
 	lista->qtdEelementos = 0;
 }
 
+/* casos: 
+- lista cheia:
+- lista com buraco:
+- lista não cheia: 
+- ultimo item da lista é menor
+- primeiro item já é o menor
+*/
+
+void bubbleSort(LISTA* lista) {
+
+	if (lista->qtdEelementos > 0) {
+
+		int i = 0;
+		bool trocou = false;
+		for (i; i < MAX; i++) {
+			//quando a lista ja ta ordenada, na terceira vez, o algoritmo segue e da o erro porque ao pegar o proximo não existe index maior que o 9. tem que achar um jeito de parar quando
+			//a lista ja tiver ordenada.
+
+			if (trocou) {
+				if (i == MAX - 1) {
+					i = -1;
+					trocou = false;
+					continue;
+				}
+			}
+			int atual;
+			if (lista->array[i].isPreenchido) {
+				atual = lista->array[i].elemento;
+			}
+
+			int proximo;
+			int j = i + 1;
+			for (j; j < MAX; j++) {
+				if (lista->array[j].isPreenchido) {
+					proximo = lista->array[j].elemento;
+					break;
+				}
+			}
+
+			if (atual > proximo) {				
+				inserirByIndex(lista, proximo, i);
+				inserirByIndex(lista, atual, j);
+				trocou = true;
+			}
+		}
+	}
+	
+}
+
 int main() {
 
 	LISTA* lista = criarLista();
@@ -122,19 +171,22 @@ int main() {
 	printLista(lista);
 	printf("Quantidade de elementos validos: %i.\n", qtdElementosValidos(lista));
 	printf("Posicao do elemento 0 na lista: %i \n", getElemento(lista,37));
+
+	bubbleSort(lista);
+
 	printf("Removendo item 37: %s.\n", remove(lista, 37) ? "true" : "false");
 	
 	printf("Elementos da lista: \n");
 	printLista(lista);
-	printf("Quantidade de elementos validos: %i.\n", qtdElementosValidos(lista));
-	
+	printf("Quantidade de elementos validos: %i.\n", qtdElementosValidos(lista));	
+
 	printf("Limpando a lista.\n");
 	clear(lista);
 	inserir(lista, 2);
 	inserirByIndex(lista, 31, 8);
 	printf("Elementos da lista: \n");
 	printLista(lista);
-	printf("Quantidade de elementos validos: %i.\n", qtdElementosValidos(lista));
+	printf("Quantidade de elementos validos: %i.\n", qtdElementosValidos(lista));	
 
 	return 0;
 }
